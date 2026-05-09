@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Compiled TypeScript output
+dist/
+build/
+
+# Environment Variables
+.env
+
+# Editor directories and files
+.vscode/
+.DS_Store
