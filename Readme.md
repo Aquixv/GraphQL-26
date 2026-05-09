@@ -85,3 +85,24 @@ Express + REST is still a solid choice, but GraphQL is often the better solution
 
 ## Conclusion
 GraphQL modernizes API communication by giving clients more control, reducing inefficiency, and improving scalability. When paired with Express, it creates a powerful backend architecture that outperforms REST in many real-world scenarios.
+
+## The Idea 
+The idea of GraphQL is to prevent overfetching by explicitly specifying? Strictly typing what is needed by the client 
+For example: Let's use a course with about a course with multiple properties: 
+Query {
+course (id: '1') {
+id,
+title,
+thumbnail_url,
+author{
+name,
+id,
+courses{
+id,
+title,
+surname,
+thumbnail_url
+   }
+  }
+ }
+}
