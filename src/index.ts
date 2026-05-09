@@ -15,4 +15,4 @@ const startServer = async () => {
   console.log(`🚀 GraphQL Server ready at: ${url}`);
 };
 
-startServer();
+startServer(); 
