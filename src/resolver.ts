@@ -9,7 +9,7 @@ export const resolvers = {
     hello: () => 'Hello from your new GraphQL Playground! 🚀',
     
     products: () => mockProducts,
-    
-    product: (_:number, args:string) => mockProducts.find(p => p.id === args.id),
+
+    product: (_: any, args: { id: string }) => mockProducts.find(p => p.id === args.id),
   },
 };
