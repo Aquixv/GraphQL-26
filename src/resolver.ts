@@ -7,9 +7,20 @@ const mockProducts = [
 export const resolvers = {
   Query: {
     hello: () => 'Hello from your new GraphQL Playground! 🚀',
-    
     products: () => mockProducts,
-
     product: (_: any, args: { id: string }) => mockProducts.find(p => p.id === args.id),
   },
+  Mutation: {
+    addProduct: (_: any, args: { name: string; price: number; inStock: boolean }) => {
+      const newProduct = {
+        id: String(mockProducts.length + 1), 
+        name: args.name,
+        price: args.price,
+        inStock: args.inStock,
+      };
+      
+      mockProducts.push(newProduct);
+      return newProduct;
+    }
+  }
 };

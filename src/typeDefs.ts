@@ -1,5 +1,4 @@
 export const typeDefs = `#graphql
-  # 1. The Blueprint (Notice the exclamation marks mean "Required/Cannot be null")
   type Product {
     id: ID!
     name: String!
@@ -7,10 +6,13 @@ export const typeDefs = `#graphql
     inStock: Boolean!
   }
 
-  # 2. The Menu
   type Query {
     hello: String
-    products: [Product!]!          # Returns an array of Products
-    product(id: ID!): Product      # Accepts an 'id' argument and returns one Product
+    products: [Product!]!
+    product(id: ID!): Product
+  }
+  type Mutation {
+    # Takes in arguments, and returns the newly created Product!
+    addProduct(name: String!, price: Float!, inStock: Boolean!): Product!
   }
 `;
