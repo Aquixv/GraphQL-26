@@ -21,6 +21,21 @@ export const resolvers = {
       
       mockProducts.push(newProduct);
       return newProduct;
+    },
+    updateProduct: (_: any, args: { id: string; name?: string; price?: number; inStock?: boolean }) => {
+        const product = mockProducts.find(p => p.id === args.id);
+        if (!product) return null;
+        if (args.name !== undefined) product.name = args.name;
+        if (args.price !== undefined) product.price = args.price;
+        if (args.inStock !== undefined) product.inStock = args.inStock;
+  
+        return product;
+      },
+      deleteProduct: (_: any, args: { id: string }) => {
+        const index = mockProducts.findIndex(p => p.id === args.id);
+        if (index === -1) return "Product not found";
+        mockProducts.splice(index, 1);
+        return `Product ${args.id} deleted successfully`;
+      }
     }
-  }
-};
+  };
