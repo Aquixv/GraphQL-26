@@ -3,39 +3,31 @@ const mockProducts = [
   { id: '2', name: 'Mechanical Keyboard', price: 120.00, inStock: false },
   { id: '3', name: 'Wireless Mouse', price: 45.50, inStock: true },
 ];
+export const mockUsers = [
+  { id: '101', name: 'Aquii', cartIds: ['1', '3'] },
+  {id: '606', name: 'Almajiri', cartIds: ['1', '4', '5']} 
+];
 
 export const resolvers = {
   Query: {
-    hello: () => 'Hello from your new GraphQL Playground! 🚀',
     products: () => mockProducts,
     product: (_: any, args: { id: string }) => mockProducts.find(p => p.id === args.id),
+    user: (_: any, args: { id: string }) => mockUsers.find(u => u.id === args.id),
   },
+  User: {
+    cart: (parent: any) => {
+      return mockProducts.filter(product => parent.cartIds.includes(product.id));
+    }
+  },
+
   Mutation: {
     addProduct: (_: any, args: { name: string; price: number; inStock: boolean }) => {
       const newProduct = {
-        id: String(mockProducts.length + 1), 
-        name: args.name,
-        price: args.price,
-        inStock: args.inStock,
+        id: String(mockProducts.length + 1),
+        name: args.name, price: args.price, inStock: args.inStock,
       };
-      
       mockProducts.push(newProduct);
       return newProduct;
-    },
-    updateProduct: (_: any, args: { id: string; name?: string; price?: number; inStock?: boolean }) => {
-        const product = mockProducts.find(p => p.id === args.id);
-        if (!product) return null;
-        if (args.name !== undefined) product.name = args.name;
-        if (args.price !== undefined) product.price = args.price;
-        if (args.inStock !== undefined) product.inStock = args.inStock;
-  
-        return product;
-      },
-      deleteProduct: (_: any, args: { id: string }) => {
-        const index = mockProducts.findIndex(p => p.id === args.id);
-        if (index === -1) return "Product not found";
-        mockProducts.splice(index, 1);
-        return `Product ${args.id} deleted successfully`;
-      }
     }
-  };
+  }
+};
