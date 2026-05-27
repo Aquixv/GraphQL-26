@@ -106,3 +106,4 @@ thumbnail_url
   }
  }
 }
+### Apology for the disconnect, i'll return once i get my data back 
