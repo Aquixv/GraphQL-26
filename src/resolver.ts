@@ -7,7 +7,47 @@ export const mockUsers = [
   { id: '101', name: 'Aquii', cartIds: ['1', '3'] },
   {id: '606', name: 'Almajiri', cartIds: ['1', '4', '5']} 
 ];
+import { Product } from "./models/products";
 
+export const resolver = {
+  Query: {
+    hello: () => 'Hello from your MongoDB connected GraphQL Server! 🚀',
+    products: async () => {
+      return await Product.find(); 
+    },
+    product: async (_: any, args: { id: string }) => {
+      return await Product.findById(args.id);
+    },
+  },
+
+  Mutation: {
+    addProduct: async (_: any, args: { name: string; price: number; inStock: boolean }) => {
+      const newProduct = new Product({
+        name: args.name,
+        price: args.price,
+        inStock: args.inStock,
+      });
+      return await newProduct.save();
+    },
+    updateProduct: async (_: any, args: { id: string; name?: string; price?: number; inStock?: boolean }) => {
+      return await Product.findByIdAndUpdate(
+        args.id,
+        {
+          name: args.name,
+          price: args.price,
+          inStock: args.inStock,
+        },
+        { new: true } 
+      );
+    },
+
+    deleteProduct: async (_: any, args: { id: string }) => {
+      const deleted = await Product.findByIdAndDelete(args.id);
+      if (!deleted) return "Product not found!";
+      return `Product ${args.id} successfully deleted from MongoDB!`;
+    }
+  }
+};
 export const resolvers = {
   Query: {
     products: () => mockProducts,
