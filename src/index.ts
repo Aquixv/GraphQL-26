@@ -1,7 +1,13 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { typeDefs } from './typeDefs';
 import { resolvers } from './resolver';
+import dns from "node:dns/promises";
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
+dotenv.config();
 
 const server = new ApolloServer({
   typeDefs,
@@ -9,10 +15,17 @@ const server = new ApolloServer({
 });
 
 const startServer = async () => {
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-  });
-  console.log(`🚀 GraphQL Server ready at: ${url}`);
+  try {
+    await mongoose.connect(process.env.URI as string);
+    console.log('📦 Connected to MongoDB!');
+
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: 4000 },
+    });
+    console.log(`🚀 GraphQL Server ready at: ${url}`);
+  } catch (error) {
+    console.error('Database connection failed:', error);
+  }
 };
 
 startServer();
