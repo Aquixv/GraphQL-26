@@ -6,4 +6,4 @@ const productSchema = new mongoose.Schema({
   inStock: { type: Boolean, default: true },
 });
 
-export const Product = mongoose.model('Product', productSchema);
+export const Product = mongoose.model('ProductGraphQL', productSchema);
