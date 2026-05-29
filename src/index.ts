@@ -3,6 +3,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { typeDefs } from './typeDefs';
+// import { resolvers } from './resolver';
 import { resolvers } from './resolver';
 import dns from "node:dns/promises";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
