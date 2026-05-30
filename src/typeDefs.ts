@@ -73,7 +73,15 @@ export const typeDefs = `#graphql
     User: User
     }
       type Mutation {
-    addProduct(name: String!, price: Float!, inStock: Boolean!): Product!
+    addProduct(
+      title: String!
+      brand: String!
+      category: String!
+      description: String!
+      thumbnail: String!
+      price: Float!
+      stock: Int!
+    ): Product!
     updateProduct(id: ID!, name: String, price: Float, inStock: Boolean): Product 
     deleteProduct(id: ID!): String 
     register(name: String!, email: String!, password: String!): AuthPayload!

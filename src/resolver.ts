@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import { Product } from "./models/products";
+import Product from './models/products';
 import User from "./models/User";
 
 export const resolvers = {
@@ -13,11 +13,14 @@ export const resolvers = {
         throw new Error("Not Authenticated! Please log in.");
       }
       const newProduct = new Product({
-        user: context.user._id, 
+        user: context.user._id,
         title: args.title,
+        brand: args.brand,
+        category: args.category,
+        description: args.description,
+        thumbnail: args.thumbnail,
         price: args.price,
-        date: args.date,
-        time: args.time
+        stock: args.stock,
       });
       return await newProduct.save();
     },
