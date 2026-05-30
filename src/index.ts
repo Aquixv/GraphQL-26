@@ -3,6 +3,8 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { typeDefs } from './typeDefs';
+import jwt from 'jsonwebtoken'
+import User from './models/User';
 // import { resolvers } from './resolver';
 import { resolvers } from './resolver';
 import dns from "node:dns/promises";
@@ -15,6 +17,21 @@ const server = new ApolloServer({
   resolvers,
 });
 
+// const startServer = async () => {
+//   try {
+//     await mongoose.connect(process.env.URI as string);
+//     console.log('📦 Connected to MongoDB!');
+
+//     const { url } = await startStandaloneServer(server, {
+//       listen: { port: 4000 },
+//     });
+//     console.log(`🚀 GraphQL Server ready at: ${url}`);
+//   } catch (error) {
+//     console.error('Database connection failed:', error);
+//   }
+// };
+
+// startServer();
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.URI as string);
@@ -22,11 +39,24 @@ const startServer = async () => {
 
     const { url } = await startStandaloneServer(server, {
       listen: { port: 4000 },
-    });
-    console.log(`🚀 GraphQL Server ready at: ${url}`);
-  } catch (error) {
-    console.error('Database connection failed:', error);
-  }
-};
+      context: async ({ req }) => {
+        const authHeader = req.headers.authorization || '';
+        const token = authHeader.replace('Bearer ', '');
 
+        if (!token) return { user: null };
+
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
+          const user = await User.findById(decoded.id).select('-password');
+          return { user }; 
+        } catch (err) {
+          return { user: null }; 
+        }
+      },
+    });
+console.log(`🚀 GraphQL Server ready at: ${url}`);
+} catch (error) {
+console.error('Database connection failed:', error);
+}
+};
 startServer();
