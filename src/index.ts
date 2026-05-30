@@ -46,7 +46,7 @@ const startServer = async () => {
         if (!token) return { user: null };
 
         try {
-          const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
+          const decoded = jwt.verify(token, process.env.API_SECRET as string) as any;
           const user = await User.findById(decoded.id).select('-password');
           return { user }; 
         } catch (err) {
