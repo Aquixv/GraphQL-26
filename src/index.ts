@@ -3,7 +3,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { typeDefs } from './typeDefs';
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import User from './models/User';
 // import { resolvers } from './resolver';
 import { resolvers } from './resolver';

@@ -60,4 +60,24 @@ export const typeDefs = `#graphql
     hello: String
     products: [Product!]!
   }
+    type User {
+    hello: String
+    id: ID!
+    name: String!
+    email: String!
+    avatar: String
+    role: String!
+}
+    type AuthPayload{
+    token: String!
+    User: User
+    }
+      type Mutation {
+    addProduct(name: String!, price: Float!, inStock: Boolean!): Product!
+    updateProduct(id: ID!, name: String, price: Float, inStock: Boolean): Product 
+    deleteProduct(id: ID!): String 
+    register(name: String!, email: String!, password: String!): AuthPayload!
+    login(email: String!, password: String!): AuthPayload!
+  }
+  }
 `;

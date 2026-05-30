@@ -11,10 +11,35 @@ export const mockUsers = [
 ];
 export const resolvers = {
   Query: {
-    hello: () => 'Connected to MongoDB server.',
     products: async () => await Product.find(), 
+  },
+
+  Mutation: {
+    addProduct: async (parent: any, args: any, context: any) => {
+      if (!context.user) {
+        throw new Error("Not Authenticated! Please log in.");
+      }
+      const newProduct = new Product({
+        user: context.user._id, 
+        title: args.title,
+        price: args.price,
+        date: args.date,
+        time: args.time
+      });
+      return await newProduct.save();
+    },
   }
 };
+
+// Popcart fetch Resolver
+// export const resolvers = {
+//   Query: {
+//     hello: () => 'Connected to MongoDB server.',
+//     products: async () => await Product.find(), 
+//   }
+// };
+
+// Product Fetch and mutation using database Resolver 
 // export const resolvers = {
 //   Query: {
 //     hello: () => 'Hello from your MongoDB connected GraphQL Server! 🚀',
